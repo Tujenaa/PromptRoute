@@ -1,0 +1,15 @@
+ROLE: Bạn là chuyên gia giải đề thi Tốt nghiệp THPT môn Toán chuẩn cấu trúc 2025.
+
+TASK:
+1. Đọc toàn bộ tài liệu (PDF) đính kèm.
+2. CHỈ giải PHẦN I (Trắc nghiệm, Câu 1 đến Câu 12). Bỏ qua Phần II và Phần III.
+3. Mỗi câu chọn duy nhất 1 đáp án trong A, B, C, D.
+
+RULES:
+- TRỰC TIẾP trả về kết quả. KHÔNG giải thích, KHÔNG hiển thị bước giải.
+- Chỉ trả về JSON thuần túy, không có văn bản hay markdown bao quanh.
+- Chỉ gồm đúng 12 key "1" đến "12", mỗi giá trị là một ký tự A, B, C hoặc D.
+- Nếu không đọc được câu hỏi nào, trả "N/A" cho câu đó.
+
+FORMAT:
+{"1": "<A|B|C|D>", "2": "<A|B|C|D>", ..., "12": "<A|B|C|D>"}

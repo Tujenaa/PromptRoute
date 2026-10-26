@@ -1,0 +1,40 @@
+server:
+  port: 8080
+
+spring:
+  # Cấu hình kết nối PostgreSQL
+  datasource:
+    url: jdbc:postgresql://localhost:5432/math_solver_db
+    username: postgres
+    password: 101205   # Thay bằng mật khẩu bạn đã đặt khi cài đặt PostgreSQL
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update                    # Tự động đồng bộ các bảng Entity
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: true
+
+  # Tăng giới hạn upload multipart cho WebFlux (mặc định chỉ 256KB — quá nhỏ cho PDF)
+  webflux:
+    multipart:
+      max-parts: 10
+      max-headers-size: 10KB
+      max-in-memory-size: 512KB          # buffer mỗi part nhỏ (text field)
+      max-disk-usage-per-part: 50MB      # cho phép file PDF lên đến 50MB
+      max-request-size: 51MB             # tổng request tối đa
+
+  # WebFlux timeout được cấu hình qua WebClient trong WebClientConfig.java
+  # (spring.mvc.async không có tác dụng với WebFlux/Netty)
+
+# Cấu hình hệ thống điều phối Gemini API
+app:
+  upload-dir: ./uploads                   # Nơi lưu trữ tạm file PDF đề thi gốc
+  gemini:
+    api-key: ${GEMINI_API_KEY}            # Tự động đọc từ biến môi trường máy tính
+    base-url: https://generativelanguage.googleapis.com/v1beta
+    temperature: 0.1                      # Triệt tiêu tính ngẫu nhiên, ép suy luận tất định
+    flash-model: gemini-3.1-flash-lite         # Định tuyến Phần I (tốc độ, chi phí)
+    pro-model: gemini-3.1-flash-lite            # Định tuyến Phần II & III (suy luận sâu)
+    thinking-budget: 0
